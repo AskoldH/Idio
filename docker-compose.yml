@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
     django:
+      restart: always
       build:
         dockerfile: ./backend/Dockerfile
       container_name: django
@@ -11,10 +12,26 @@ services:
       ports:
         - "8000:8000"
 
+    vue:
+      stdin_open: true
+      tty: true
+      restart: always
+      container_name: vue
+#      command: npm run serve
+      build:
+        dockerfile: ./frontend/Dockerfile
+      ports:
+        - "8080:8080"
+      depends_on:
+        - django
+      volumes:
+        - ./frontend/node_modules
+        - ./frontend:/frontend
+
     mongo:
+      restart: always
       container_name: mongo
       image: mongo
-      restart: always
       ports:
         - "27017:27017"
       environment:
