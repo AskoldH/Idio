@@ -1,5 +1,7 @@
-from django.shortcuts import render
-from django.http import HttpResponse
 
-def homePageView(request):
-    return HttpResponse("Hello, World!")
+from .models import EduVideo
+from rest_framework.viewsets import ModelViewSet
+from .serializer import EduVideoSerializer
+class EduVideosViewSet(ModelViewSet):
+    queryset = EduVideo.objects.all()
+    serializer_class = EduVideoSerializer

@@ -3,7 +3,8 @@ FROM node:lts-alpine as build-stage
 
 WORKDIR frontend
 
-COPY ./frontend/package*.json ./
+COPY ./frontend/package.json ./package.json
+COPY ./frontend/package-lock.json ./package-lock.json
 
 RUN npm install
 

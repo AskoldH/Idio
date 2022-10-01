@@ -1,6 +1,7 @@
-from django.urls import path
-from .views import homePageView
+from rest_framework import routers
+from .views import EduVideosViewSet
 
-urlpatterns = [
-    path("", homePageView, name="home"),
-]
+router = routers.DefaultRouter()
+router.register('api/edu-videos', EduVideosViewSet)
+
+urlpatterns = router.urls
