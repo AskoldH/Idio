@@ -7,6 +7,8 @@
     "preview": "vite preview --port 4173"
   },
   "dependencies": {
+    "@kyvg/vue3-notification": "^2.4.1",
+    "axios": "^1.1.2",
     "node-sass": "^7.0.3",
     "sass": "^1.55.0",
     "sass-loader": "^13.0.2",
