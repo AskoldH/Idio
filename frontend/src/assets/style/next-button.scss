@@ -1,2 +1,36 @@
 @import "base.scss";
 
+.container {
+  width: 10%;
+  right: -90%;
+}
+
+.duolingo_button_container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  margin: 0 auto;
+}
+
+.duolingo_button {
+  min-width: 100%;
+  border-radius: 16px;
+  border: 2px solid #e5e5e5;
+  border-bottom: 6px solid #e5e5e5;
+  margin: 10px;
+  transition: all 0.1s;
+  display: inline-flex;
+  padding: 12px 16px;
+}
+
+.duolingo_button:hover {
+  background-color: #f8f6f3;
+  border-color: #f49a28;
+}
+
+.duolingo_button:active {
+  border-bottom: 2px solid red;
+}

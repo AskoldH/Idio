@@ -5,9 +5,9 @@
 #app {
   height: 100vh;
   min-width: 100%;
-  /*margin: 0 auto;*/
+  margin: 0 auto;
   /*padding: 2rem;*/
-  background: #63C5EA;;
+  background: #f8f6f3;
   font-weight: normal;
 }
 
@@ -30,11 +30,11 @@ a,
     place-items: center;
   }
 
-  #app {
-    /*display: grid;*/
-    /*grid-template-columns: 1fr 1fr;*/
-    /*padding: 0 2rem;*/
-  }
+  /*#app {*/
+  /*  display: grid;*/
+  /*  grid-template-columns: 1fr 1fr;*/
+  /*  padding: 0 2rem;*/
+  /*}*/
 }
 
 /* color palette from <https://github.com/vuejs/theme> */
