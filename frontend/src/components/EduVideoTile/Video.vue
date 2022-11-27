@@ -29,7 +29,6 @@ export default {
       console.log(this.eduVideo)
     },
     playPauseVideo() {
-      console.log("Hi")
       if (this.playing) {
         this.$refs.video.pause();
         this.playing = false;
