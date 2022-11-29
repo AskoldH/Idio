@@ -3,8 +3,7 @@
 </template>
 
 <script>
-import "../../assets/style/edu-video-tile.scss";
-import Video from "@/components/EduVideoTile/Video.vue";
+import Video from "@/components/HopePage/EduVideoTile/Video.vue";
 
 export default {
   name: "EduVideoTile",

@@ -1,13 +1,12 @@
 <script setup>
 import axios from 'axios'
-const API_URL = 'http://localhost:8000'
-import EduVideoTile from "./components/EduVideoTile/EduVideoTile.vue";
-import NextButton from "./components/NextButton/NextButton.vue";
+
+const API_URL = 'http://localhost:8000';
+import BackGround from "./components/Backgroud/Background.vue";
 </script>
 
 <template>
-    <EduVideoTile/>
-<!--    <NextButton/>-->
-<!--    <NextButton/>-->
-<!--  <notifications/>-->
+    <BackGround/>
+    <router-view/>
+    <!--  <notifications/>-->
 </template>

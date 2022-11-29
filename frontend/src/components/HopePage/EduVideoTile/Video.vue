@@ -1,26 +1,24 @@
 <template>
-  <div class="cool_border_container">
-    <div class="video__container">
-      <div class="video_cover_layer">
-        <div v-if="!playing" class="play_button" @click="playPauseVideo()">
-          <img v-if="ended" class="play_again_icon" src="https://htmlacademy.ru/assets/icons/reload-6x-white.png">
-          <img v-else class="play_triangle" src="../../assets/images/play_triangle.png">
-        </div>
-        <video @click="playPauseVideo()" :class="{ video: true, video_stopped: !playing}" :src="video_file" ref="video"
-               @ended="videoEnded" playsinline>
-          <source :src="eduVideo.video_file" type="video/mp4">
-          Your browser does not support the video tag.
-        </video>
+  <div class="video__container">
+    <div class="video_cover_layer">
+      <div v-if="!playing" class="play_button" @click="playPauseVideo">
+        <img v-if="!ended" class="play_triangle" src="../../../assets/images/play_triangle.png">
+        <img v-else class="play_again_icon" src="https://htmlacademy.ru/assets/icons/reload-6x-white.png">
       </div>
-      <div class="titles_container">
-        <div class="video_name">
-          {{ eduVideo.name }}
-        </div>
-        <div class="video_source_info">
-          Zdroj: {{ eduVideo.source_info }}
-        </div>
-      </div>
+      <video @click="playPauseVideo" :class="{ video: true, video_stopped: !playing}" :src="video_file" ref="video"
+             @ended="videoEnded" playsinline>
+        <source :src="eduVideo.video_file" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
     </div>
+    <!--      <div class="titles_container">-->
+    <!--        <div class="video_name">-->
+    <!--          {{ eduVideo.name }}-->
+    <!--        </div>-->
+    <!--        <div class="video_source_info">-->
+    <!--          Zdroj: {{ eduVideo.source_info }}-->
+    <!--        </div>-->
+    <!--      </div>-->
   </div>
 </template>
 

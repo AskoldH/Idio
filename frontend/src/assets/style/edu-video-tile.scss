@@ -1,27 +1,25 @@
 @import "base.scss";
 
-.cool_border_container {
-  position: relative;
-  border-radius: 16px;
-  border: 2px solid $color-yellowish;
-  border-bottom: 6px solid $color-yellowish;
-  top: 10%;
-  width: 70%;
-  margin: auto;
-}
-
 .video__container {
   background-color: $mapulary-orange;
   //padding-top: -30px;
-  border: solid $mapulary-orange 2vh;
+  border: solid $mapulary-orange 11px;
   border-radius: 11px;
   position: relative;
+  margin: auto;
+  top: 10vh;
+  width: min(100% - 17rem, 100%);
+  box-shadow: 0 3px 0 4px $color-yellowish;
+}
+
+.video__container:active {
+  box-shadow: 0 3px 0 2px $color-yellowish;
 }
 
 .video {
   position: relative;
   cursor: pointer;
-  border-radius: 2vh;
+  border-radius: 11px;
   display: block;
   width: 100%;
   z-index: 1;
@@ -67,6 +65,7 @@
   width: 50%;
   text-align: left;
   text-shadow: 2px 2px $color-yellowish;
+  top: 25%;
 }
 
 .video_source_info {
