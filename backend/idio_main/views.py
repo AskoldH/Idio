@@ -14,6 +14,6 @@ class SubtitlesInfoViewSet(ModelViewSet):
     serializer_class = SubtitlesInfoSerializer
 
     def get_queryset(self, *args, **kwargs):
-        edu_video_id = self.request.query_params.get('eduvideo-id')
+        edu_video_id = self.request.query_params.get('edu-video-id')
         queryset = SubtitlesInfo.objects.filter(edu_video_id=edu_video_id)
         return queryset

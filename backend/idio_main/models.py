@@ -24,10 +24,10 @@ class EduVideo(models.Model):
 
 
 class SubtitlesInfo(models.Model):
-    end_time = models.CharField(max_length=8, blank=False, null=False)
+    start_time = models.CharField(max_length=8, blank=False, null=False)
     original = models.CharField(max_length=128, null=True, blank=True)
     translation = models.CharField(max_length=128, null=True, blank=True)
     edu_video = models.ForeignKey(EduVideo, on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
-        return (self.edu_video.name + " | " + self.end_time + " s")
+        return (self.edu_video.name + " | " + self.start_time + " s")

@@ -9,4 +9,5 @@ class EduVideoSerializer(ModelSerializer):
 class SubtitlesInfoSerializer(ModelSerializer):
     class Meta:
         model = SubtitlesInfo
-        fields = ["id", "end_time", "original", "translation"]
+        fields = ["id", "start_time", "original", "translation"]
+
