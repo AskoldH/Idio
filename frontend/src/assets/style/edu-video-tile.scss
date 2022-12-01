@@ -3,17 +3,18 @@
 .video__container {
   background-color: $mapulary-orange;
   //padding-top: -30px;
-  border: solid $mapulary-orange 11px;
+  border: solid $mapulary-orange 18px;
   border-radius: 11px;
-  position: relative;
-  margin: auto;
-  top: 10vh;
-  width: min(100% - 17rem, 100%);
-  box-shadow: 0 3px 0 4px $color-yellowish;
+  position: fixed;
+  bottom: 6%;
+  $width: min(100% - 25rem, 100%);
+  width: $width;
+  left: calc((100% - $width) /2);
+  box-shadow: 0 5px 0 8px $color-yellowish;
 }
 
 .video__container:active {
-  box-shadow: 0 3px 0 2px $color-yellowish;
+  box-shadow: 0 5px 0 12px $color-yellowish;
 }
 
 .video {
