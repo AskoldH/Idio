@@ -4,7 +4,7 @@
 
 <script>
 import Video from "@/components/HopePage/EduVideoTile/Video.vue";
-
+ 
 export default {
   name: "EduVideoTile",
   components: {Video},

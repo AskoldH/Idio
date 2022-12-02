@@ -1,0 +1,18 @@
+@import "base.scss";
+
+.text_container {
+    z-index: 1000;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    text-align: center;
+    border: solid $mapulary-orange 6px;
+    box-shadow: 0 2px 0 4px $color-yellowish;
+    background-color: $mapulary-orange;
+    border-radius: 11px;
+}
+
+.text {
+    padding: 0.2rem;
+    font-weight: bold;
+}

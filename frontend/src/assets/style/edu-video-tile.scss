@@ -3,13 +3,13 @@
 .video__container {
   background-color: $mapulary-orange;
   //padding-top: -30px;
-  border: solid $mapulary-orange 18px;
   border-radius: 11px;
   position: fixed;
   bottom: 6%;
   $width: min(100% - 25rem, 100%);
   width: $width;
   left: calc((100% - $width) /2);
+  border: solid $mapulary-orange 18px;
   box-shadow: 0 5px 0 8px $color-yellowish;
 }
 
@@ -26,9 +26,15 @@
   z-index: 1;
 }
 
-.video_stopped {
-  filter: opacity(85%);
-  -webkit-filter: opacity(85%); /* Safari 6.0 - 9.0 */
+.video_stopped_opacity_80 {
+  filter: opacity(80%);
+  -webkit-filter: opacity(80%);
+}
+
+.video_stopped_opacity_30 {
+  z-index: 100;
+  filter: opacity(100%);
+  -webkit-filter: opacity(30%);
 }
 
 .play_again_icon {
@@ -48,29 +54,33 @@
   left: 38%;
 }
 
+/*
 .titles_container {
+  z-index: 1000;
   display: flex;
-  position: relative;
+  position: absolute;
   justify-content: center;
   height: 2.5rem;
+  top:0;
   text-align: center;
 }
 .video_name {
-  //position: absolute;
-  display: inline;
-  z-index: 2;
+  position: absolute;
+  border: solid $mapulary-orange 6px;
+  box-shadow: 0 2px 0 4px $color-yellowish;
+  left: 10rem;
+  background-color: $mapulary-orange;
   color: $mapulary-text-gray;
   font-size: 30px;
   font-family: Comfortaa, serif;
   font-weight: bold;
-  width: 50%;
-  text-align: left;
-  text-shadow: 2px 2px $color-yellowish;
-  top: 25%;
+  width: 30rem;
+  border-radius: 11px;
+
 }
 
 .video_source_info {
-  position: relative;
+  position: absolute;
   //display: flex;
   z-index: 2;
   color: $mapulary-text-gray;
@@ -81,9 +91,8 @@
   text-align: right;
   top: 25%;
   text-shadow: 2px 2px $color-yellowish;
+}*/
 
-
-}
 .play_button {
   cursor: pointer;
   z-index: 1000;
@@ -148,6 +157,7 @@
     opacity: 1;
     box-shadow: inset 0px 0px 25px 3px $color-yellowish, 0px 0px 25px 10px $color-yellowish;
   }
+
   100% {
     -webkit-transform: scale(1);
     transform: scale(1);
@@ -164,6 +174,7 @@
     opacity: 1;
     box-shadow: inset 0px 0px 25px 3px $color-yellowish 50%, 0px 0px 25px 10px $color-yellowish;
   }
+
   100% {
     -webkit-transform: scale(1, 1);
     transform: scale(1);
@@ -171,4 +182,125 @@
     box-shadow: none;
 
   }
+}
+
+.edu_video_info_container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+}
+.title_text {
+  color: $mapulary-text-gray;
+  font-size: 2rem;
+  font-family: Comfortaa, serif;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.source_info_text {
+  top: 1rem;
+  color: $mapulary-text-gray;
+  font-size: 1rem;
+  font-family: Comfortaa, serif;
+
+  position: relative;
+  display: inline-flex;
+}
+
+.subtitles_text {
+  bottom: 4.5rem;
+  color: $mapulary-text-gray;
+  font-size: 1.5rem;
+  font-family: Comfortaa, serif;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.switch_container {
+  bottom: 7.5rem;
+
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.switch {
+  z-index: 100;
+  position: absolute;
+  display: inline-block;
+  width: 70px;
+  height: 40px;
+}
+
+.switch input {
+  display: none;
+}
+
+.slider {
+  z-index: 101;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: $color-yellowish;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 32px;
+  width: 32px;
+  left: 4px;
+  bottom: 4px;
+  background-color: $mapulary-orange;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+input:checked+.slider {
+  background-color: $color-yellowish;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #101010;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.slider_text_cs {
+  z-index: 1;
+  left: 8%;
+  top:20%;
+  color: $mapulary-text-gray;
+  font-family: Comfortaa, serif;
+  font-weight: bold;
+}
+
+.slider_text_en {
+  z-index: 1;
+  left: 57%;
+  top:20%;
+  color: $mapulary-text-gray;
+  font-family: Comfortaa, serif;
+  font-weight: bold;
 }

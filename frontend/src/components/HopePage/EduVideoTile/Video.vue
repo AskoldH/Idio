@@ -5,61 +5,90 @@
         <img v-if="!ended" class="play_triangle" src="../../../assets/images/play_triangle.png">
         <img v-else class="play_again_icon" src="https://htmlacademy.ru/assets/icons/reload-6x-white.png">
       </div>
-      <video @click="playPauseVideo" :class="{ video: true, video_stopped: !playing}" :src="video_file" ref="video"
-             @ended="videoEnded" playsinline>
+      <video @click="playPauseVideo" :class="{ video: true, video_stopped_opacity_80: !playing }" :src="video_file"
+        ref="video" @ended="videoEnded" playsinline>
         <source :src="eduVideo.video_file" type="video/mp4">
         Your browser does not support the video tag.
       </video>
     </div>
-    <!--      <div class="titles_container">-->
-    <!--        <div class="video_name">-->
-    <!--          {{ eduVideo.name }}-->
-    <!--        </div>-->
-    <!--        <div class="video_source_info">-->
-    <!--          Zdroj: {{ eduVideo.source_info }}-->
-    <!--        </div>-->
-    <!--      </div>-->
+    <div v-if="!playing" class="edu_video_info_container">
+      <TextContainer class="title_text" v-bind:text=eduVideo.name />
+      <TextContainer class="source_info_text" v-bind:text=eduVideo.source_info />
+    </div>
+    <div class="switch_container">
+      <label class="switch">
+        <input type="checkbox" @click="toggleLanguage">
+        <div class="slider round">
+          <div v-if="!languageToggle" class="slider_text_cs">CS</div>
+          <div v-else class="slider_text_en">EN</div>
+        </div>
+      </label>
+    </div>
+    <div>
+      <div v-if="!languageToggle" class="subtitles_text">
+        <TextContainer v-bind:text=subtitlesCS />
+      </div>
+      <div v-else class="subtitles_text">
+        <TextContainer v-bind:text=subtitlesEN />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import TextContainer from "./TextContainer.vue";
+
 export default {
+  components: { TextContainer },
   name: "Video",
   data() {
     return {
-      subtitlesInfo: null,
       eduVideo: null,
+      subtitlesInfo: [],
+      subtitlesCS: "",
+      subtitlesEN: "",
+      languageToggle: true,
+
+      subtitles: [],
       playing: false,
       ended: false,
     }
   },
   created() {
-    this.$axios.get("http://localhost:8000/api/edu-videos").then((response) => {
-      this.eduVideo = response.data[0]
-      console.log(this.eduVideo)
-    }, (error) => {
-      console.log(error);
+    this.fetchVideoWithSubtitles()
+  },
+  mounted() {
+    console.log("Hello world")
+    let element = this.subtitlesInfo[0]
+    this.$refs.video.addEventListener('timeupdate', () => {
+      element = this.subtitlesInfo.find(i => i.time == Math.round(this.$refs.video.currentTime * 4) / 4 && !i.triggered)
+      if (element) {
+        this.subtitlesCS = element.cs
+        this.subtitlesEN = element.en
+        element.triggered = true
+      }
     })
   },
   methods: {
-    fetchVideo() {
+    fetchVideoWithSubtitles() {
       this.$axios.get("http://localhost:8000/api/edu-videos").then((response) => {
-        this.eduVideo = response.data[0]
+        this.eduVideo = response.data[1]
+        console.log(this.eduVideo)
+        this.fetchSubtitles()
       }, (error) => {
         console.log(error);
       })
-      this.video_file = this.eduVideo.video_file
-      console.log(this.eduVideo.video_file)
-      console.log(this.eduVideo)
-      console.log(this.video_file)
     },
-    sendRequest2() {
-      this.$axios.get("http://localhost:8000/api/subtitles-info/?eduvideo-id=" + this.eduVideo.id).then((response) => {
-        this.subtitlesInfo = response.data
+    fetchSubtitles() {
+      this.$axios.get("http://localhost:8000/api/subtitles-info/?edu-video-id=" + this.eduVideo.id).then((response) => {
+        this.subtitles = response.data
+        this.subtitlesCS = this.subtitles[0].translation
+        this.subtitlesEN = this.subtitles[0].original
+        this.setSubtitlesEndTimes()
+        console.log("tohle jsou:", this.subtitlesInfo)
       }, (error) => {
         console.log(error);
       })
-      console.log(this.subtitlesInfo)
     },
     playPauseVideo() {
       if (this.playing) {
@@ -74,8 +103,23 @@ export default {
     videoEnded() {
       this.ended = true
       this.playing = false
+      console.log(this.subtitlesInfo)
+      this.subtitlesInfo.forEach(element => { element.triggered = false })
+      console.log(this.subtitlesInfo)
       // setTimeout(this.playPauseVideo, 1000)
     },
-  }
+    setSubtitlesEndTimes() {
+      console.log(this.subtitles)
+      this.subtitles.forEach(element => this.subtitlesInfo.push({
+        time: element.start_time, triggered: false, cs: element.translation, en: element.original
+      }))
+    },
+
+    toggleLanguage() {
+      console.log(this.languageToggle)
+      this.languageToggle = !this.languageToggle
+      this.$emit('setCheckboxVal', this.languageToggle)
+    }
+  },
 }
 </script>

@@ -6,6 +6,7 @@
 <script>
 import "./../../../src/assets/style/edu-video-tile.scss";
 import "./../../../src/assets/style/buttons.scss";
+import "./../../../src/assets/style/text-containers.scss";
 import EduVideoTile from "./EduVideoTile/EduVideoTile.vue";
 import Buttons from "./Buttons/Buttons.vue";
 export default {
