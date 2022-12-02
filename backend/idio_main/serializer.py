@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import EduVideo, SubtitlesInfo
 
 class EduVideoSerializer(ModelSerializer):
-    class Meta:
+    class Meta: 
         model = EduVideo
         fields = ["id", "name", "video_file", "source_type", "source_info"]
 

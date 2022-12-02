@@ -31,3 +31,20 @@ class SubtitlesInfo(models.Model):
 
     def __str__(self):
         return (self.edu_video.name + " | " + self.start_time + " s")
+
+
+class IdioUser(models.Model):
+    cookie_value = models.CharField(max_length=13, blank=False, null=False)
+    edu_videos_learned = models.ManyToManyField(EduVideo, through='EduVideosLearn', related_name="edu_videos_learned")
+    edu_videos_skipped = models.ManyToManyField(EduVideo, through='EduVideosSkip', related_name="edu_videos_skipped")
+
+    def __str__(self):
+        return (self.cookie_value)
+
+class EduVideosLearn(models.Model):
+    edu_video = models.ForeignKey(EduVideo, on_delete=models.CASCADE, related_name="edu_video_learned")
+    idio_user = models.ForeignKey(IdioUser, on_delete=models.CASCADE, related_name="idio_user_learned")
+
+class EduVideosSkip(models.Model):
+    edu_video = models.ForeignKey(EduVideo, on_delete=models.CASCADE, related_name="edu_video_skipped")
+    idio_user = models.ForeignKey(IdioUser, on_delete=models.CASCADE, related_name="idio_user_skipped")

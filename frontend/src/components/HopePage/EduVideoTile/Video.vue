@@ -52,10 +52,12 @@ export default {
       subtitles: [],
       playing: false,
       ended: false,
+      userID: '',
     }
   },
   created() {
     this.fetchVideoWithSubtitles()
+    //this.setUserIDCookie()
   },
   mounted() {
     console.log("Hello world")
@@ -71,8 +73,9 @@ export default {
   },
   methods: {
     fetchVideoWithSubtitles() {
-      this.$axios.get("http://localhost:8000/api/edu-videos").then((response) => {
-        this.eduVideo = response.data[1]
+      this.$axios.get("http://localhost:8000/api/edu-video/?cookie-value=" + this.getCookie("id")).then((response) => {
+        console.log(response.data)
+        this.eduVideo = response.data[0]
         console.log(this.eduVideo)
         this.fetchSubtitles()
       }, (error) => {
@@ -119,6 +122,15 @@ export default {
       console.log(this.languageToggle)
       this.languageToggle = !this.languageToggle
       this.$emit('setCheckboxVal', this.languageToggle)
+    },
+    setUserIDCookie() {
+      this.userID = new Date().getTime()
+      document.cookie = "id=" + this.userID + "; expires=Thu, 18 Dec 2022 12:00:00 UTC";
+    },
+    getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
     }
   },
 }
