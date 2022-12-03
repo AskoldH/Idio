@@ -14,7 +14,7 @@ export default {
   components: {BaseButton},
   data() {
     return {
-      buttonTypes: ["Další", "Zpět", "Přeskočit"],
+      buttonTypes: ["Přeskočit", "Zpět", "Umím"],
     }
   }
 }
