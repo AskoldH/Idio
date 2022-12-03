@@ -1,0 +1,16 @@
+@import "base.scss";
+
+.header_container {
+    position: relative;
+    height: 6rem;
+}
+
+.header_logo {
+    height: 4rem;
+    left: 1rem;
+    top: 1rem;
+}
+
+.hearder_logo_link:hover {  
+    background-color: transparent;
+}

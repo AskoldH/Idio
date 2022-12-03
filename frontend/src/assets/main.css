@@ -1,7 +1,8 @@
 @import "style/base.scss";
 @import "style/buttons.scss";
 @import "style/edu-video-tile.scss";
-
+@import "style/base.scss";
+@import "style/idio-header.scss";
 
 #app {
     height: 100vh;

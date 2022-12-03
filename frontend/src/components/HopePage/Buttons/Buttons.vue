@@ -12,10 +12,18 @@ import "../../../assets/style/edu-video-tile.scss";
 export default {
   name: "Buttons",
   components: {BaseButton},
+  props: {
+    cookie_value: {
+      type: String
+    }
+  },
   data() {
     return {
       buttonTypes: ["Přeskočit", "Zpět", "Umím"],
     }
+  },
+  created() {
+    
   }
 }
 </script>
