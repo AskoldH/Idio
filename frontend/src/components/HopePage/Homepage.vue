@@ -39,7 +39,6 @@ export default {
     fetchVideo() {
       this.$axios.get("http://localhost:8000/api/edu-video?user-cookie-value=" + this.propsData.cookieValue).then((response) => {
         this.propsData.eduVideo = response.data
-
         this.propsData.eduVideo.video_file = "http://localhost:8000" + this.propsData.eduVideo.video_file
       }, (error) => {
         console.log(error);

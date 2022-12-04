@@ -16,7 +16,7 @@
       </div>
       <div v-if="!playing && eduVideo.name" class="edu_video_info_container">
         <TextContainer class="title_text" v-bind:text=eduVideo.name />
-        <TextContainer class="source_info_text" v-bind:text=eduVideo.source_info />
+        <TextContainer class="source_info_text" v-bind:text="eduVideo.source_name + divider + eduVideo.source_season_episode" />
       </div>
       <div v-if="subtitles.cs && subtitles.en">
         <div class="switch_container">
@@ -81,6 +81,7 @@ export default {
       languageToggle: true,
       playing: false,
       ended: false,
+      divider: " | ",
     }
   },
 
@@ -132,9 +133,13 @@ export default {
     },
 
     setSubtitlesTimes(responseData) {
-      // sets fisrt values to subtitles
+      // sets fisrt values to subtitles if get subtitles
+      if (this.subtitles.cs) {
       this.subtitles.cs = responseData[0].translation
+      }
+      if (this.subtitles.en) {
       this.subtitles.en = responseData[0].original
+      }
 
       // prepares list subtitlesInfo with times
       this.subtitlesInfo = []
