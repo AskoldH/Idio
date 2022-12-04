@@ -1,6 +1,6 @@
-from .models import EduVideo, SubtitlesInfo, EduVideosLearn, EduVideosSkip, IdioUser
+from .models import EduVideo, SubtitlesInfo, EduVideosLearn, EduVideosSkip, IdioUser, VideoSourceName, VideoSourcesType
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from .serializer import EduVideoSerializer, SubtitlesInfoSerializer, IdioUserSerializer, EduVideoLearnSerializer, EduVideoSkipSerializer
+from .serializer import EduVideoSerializer, SubtitlesInfoSerializer, IdioUserSerializer, EduVideoLearnSerializer, EduVideoSkipSerializer, VideoSourceNameSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -13,7 +13,6 @@ class EduVideosViewSet(APIView):
 
     def get(self, request, *args, **kwargs):
         user_cookie_value = request.query_params.get("user-cookie-value")
-        print(user_cookie_value)
 
         idio_user = IdioUser.objects.get(cookie_value=user_cookie_value)
 
@@ -30,8 +29,14 @@ class EduVideosViewSet(APIView):
             all_ids.append(pair.get('edu_video'))
 
         edu_video = self.queryset.exclude(id__in=all_ids)
+        
         serializer = EduVideoSerializer(edu_video.first())
-        return Response(serializer.data)
+        video_source_name_serializer = VideoSourceNameSerializer(VideoSourceName.objects.get(id=serializer.data.get("source_info")))
+        source_data = video_source_name_serializer.data
+        data = serializer.data
+        
+        data.update(source_data)
+        return Response(data)
 
 
 class SubtitlesInfoViewSet(APIView):

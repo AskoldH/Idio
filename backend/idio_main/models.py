@@ -1,23 +1,27 @@
 from django.db import models
 
+class VideoSourcesType(models.Model):
+    video_source_type = models.CharField(max_length=32, blank=False, null=False)
+    label = models.CharField(max_length=32, blank=True, null=True)
+    
+    def __str__(self):
+        return self.video_source_type
+
+class VideoSourceName(models.Model):
+    source_name = models.CharField(max_length=64, null=False, blank=False)
+    source_season_episode = models.CharField(max_length=32, null=False, blank=False)
+
+    def __str__(self):
+        return (self.source_name + " | " + self.source_season_episode)
 
 class EduVideo(models.Model):
-    FILM = "FILM"
-    TV_SERIES = "TV-SERIES"
-    MUSIC_CLIP = "MUSIC_CLIP"
-    OTHER = "OTHER"
-
-    SOURCE_TYPE_CHOICES = ((FILM, "film"),
-                           (TV_SERIES, "TV-series"),
-                           (MUSIC_CLIP, "music clip"),
-                           (OTHER, "other")
-                           )
-
     name = models.CharField(max_length=32, blank=False, null=False)
     video_file = models.FileField(upload_to='videos/', null=True)
     main_thought = models.CharField(max_length=64, null=True, blank=True)
-    source_type = models.CharField(max_length=32, choices=SOURCE_TYPE_CHOICES, blank=False, default=OTHER)
-    source_info = models.CharField(max_length=64, null=True, blank=True)
+    main_thought_false_1 = models.CharField(max_length=64, null=True, blank=True)
+    main_thought_false_2 = models.CharField(max_length=64, null=True, blank=True)
+    source_type = models.ForeignKey(VideoSourcesType, on_delete=models.CASCADE, blank=False, null=False)
+    source_info = models.ForeignKey(VideoSourceName, on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
         return self.name

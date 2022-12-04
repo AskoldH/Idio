@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import EduVideo, SubtitlesInfo, IdioUser, EduVideosLearn, EduVideosSkip
+from .models import EduVideo, SubtitlesInfo, IdioUser, EduVideosLearn, EduVideosSkip, VideoSourcesType, VideoSourceName
 
 class EduVideoSerializer(ModelSerializer):
     class Meta: 
@@ -25,3 +25,13 @@ class EduVideoSkipSerializer(ModelSerializer):
     class Meta:
         model = EduVideosSkip
         fields = ["edu_video", "idio_user"]
+
+class VideoSourceTypeSerializer(ModelSerializer):
+    class Meta:
+        model = VideoSourcesType
+        fields = ["video_source_type"]
+
+class VideoSourceNameSerializer(ModelSerializer):
+    class Meta:
+        model = VideoSourceName
+        fields = ["source_name", "source_season_episode"]
