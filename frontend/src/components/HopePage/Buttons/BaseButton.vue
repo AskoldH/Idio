@@ -1,7 +1,7 @@
 <template>
   <div class="duolingo_button_container">
     <div class="duolingo_button">
-      {{ buttonType }}
+      {{ buttonLabel }}
     </div>
   </div>
 </template>
@@ -10,7 +10,7 @@
 export default {
   name: "BaseButton",
   props: {
-    buttonType: {
+    buttonLabel: {
       type: String
     }
   }

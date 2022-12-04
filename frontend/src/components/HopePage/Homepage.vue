@@ -1,6 +1,6 @@
 <template>
-  <Buttons v-bind:cookie_value="cookie_value" />
-  <EduVideoTile v-bind:cookie_value="cookie_value" />
+  <Buttons v-bind:propsData="propsData" />
+  <EduVideoTile v-bind:propsData="propsData" />
 </template>
 
 <script>
@@ -14,11 +14,20 @@ export default {
   components: { EduVideoTile, Buttons },
   data() {
     return {
-      cookie_value: '',
+      propsData:
+      {
+        cookieValue: '',
+        eduVideo: {
+          video_file: null,
+          name: null,
+          source_info: null,
+        },
+      },
     }
   },
   created() {
-    this.cookie_value = this.getCookie("id")
+    this.propsData.cookieValue = this.getCookie("id")
+    this.fetchVideo()
   },
   methods: {
     getCookie(name) {
@@ -26,7 +35,16 @@ export default {
       const value = `; ${document.cookie}`;
       const parts = value.split(`; ${name}=`);
       if (parts.length === 2) return parts.pop().split(';').shift();
-    }
+    },
+    fetchVideo() {
+      this.$axios.get("http://localhost:8000/api/edu-video?user-cookie-value=" + this.propsData.cookieValue).then((response) => {
+        this.propsData.eduVideo = response.data
+
+        this.propsData.eduVideo.video_file = "http://localhost:8000" + this.propsData.eduVideo.video_file
+      }, (error) => {
+        console.log(error);
+      })
+    },
   }
 }
 </script>

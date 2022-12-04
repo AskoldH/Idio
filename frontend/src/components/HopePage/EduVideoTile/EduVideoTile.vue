@@ -1,7 +1,10 @@
 <template>
-  <div v-if="eduVideo.video_file">
+  <div v-if="eduVideo.id">
     <div class="video__container">
       <div class="video_cover_layer">
+        <!-- <div v-if="!playing" class="image_play_button" @click="playPauseVideo">
+            <img class="play_image_from_logo" src="../../../assets/images/idio_page_logo.png">
+          </div> -->
         <div v-if="!playing" class="play_button" @click="playPauseVideo">
           <img v-if="!ended" class="play_triangle" src="../../../assets/images/play_triangle.png">
           <img v-else class="play_again_icon" src="https://htmlacademy.ru/assets/icons/reload-6x-white.png">
@@ -36,6 +39,9 @@
       </div>
     </div>
   </div>
+  <div v-if="!eduVideo.id && hasLoaded">
+    <TextContainer class="error_messsage_text" v-bind:text=errorMessage />
+  </div>
 </template>
 
 <script>
@@ -45,16 +51,20 @@ export default {
   components: { TextContainer },
   name: "EduVideoTile",
   props: {
-    cookie_value: {
-      type: String
+    propsData: {
+      type: Object,
+      default: () => ({}),
     }
   },
   data() {
     return {
+      errorMessage: "Všechna video zobrazena.",
+      hasLoaded: false,
+
       eduVideo: {
-        video_file: null,
-        name: null,
-        source_info: null,
+        video_file: '',
+        name: '',
+        source_info: '',
       },
 
       subtitlesInfo: [{
@@ -64,8 +74,8 @@ export default {
         en: ''
       }],
       subtitles: {
-        cs: "",
-        en: "",
+        cs: '',
+        en: '',
       },
 
       languageToggle: true,
@@ -75,21 +85,24 @@ export default {
   },
 
   created() {
-    this.fetchVideoWithSubtitles()
+    setTimeout(() => {
+      this.toggleHasLoaded();
+    }, "500")
+
+    if (this.propsData.eduVideo.id) {
+      this.eduVideo = this.propsData.eduVideo
+      this.fetchSubtitles()
+    }
+    else {
+      const unwatch = this.$watch('propsData.eduVideo.video_file', () => {
+        this.eduVideo = this.propsData.eduVideo
+        this.fetchSubtitles()
+        unwatch()
+      })
+    }
   },
 
   methods: {
-    fetchVideoWithSubtitles() {
-      this.$axios.get("http://localhost:8000/api/edu-video?user-cookie-value=" + this.cookie_value).then((response) => {
-        this.eduVideo = response.data
-
-        this.eduVideo.video_file = "http://localhost:8000" + this.eduVideo.video_file
-        this.fetchSubtitles()
-      }, (error) => {
-        console.log(error);
-      })
-    },
-
     fetchSubtitles() {
       this.$axios.get("http://localhost:8000/api/subtitles-info?edu-video-id=" + this.eduVideo.id).then((response) => {
         this.setSubtitlesTimes(response.data)
@@ -155,6 +168,10 @@ export default {
       // changes value in checkbox
       this.$emit('setCheckboxVal', this.languageToggle)
     },
+
+    toggleHasLoaded() {
+      this.hasLoaded = !this.hasLoaded
+    }
   },
 }
 </script>

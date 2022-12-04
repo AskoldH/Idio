@@ -1,6 +1,6 @@
 from .models import EduVideo, SubtitlesInfo, EduVideosLearn, EduVideosSkip, IdioUser
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
-from .serializer import EduVideoSerializer, SubtitlesInfoSerializer, IdioUserSerializer
+from .serializer import EduVideoSerializer, SubtitlesInfoSerializer, IdioUserSerializer, EduVideoLearnSerializer, EduVideoSkipSerializer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -62,10 +62,55 @@ class IdioUserViewSet(APIView):
     def post(self, request, *args, **kwargs):
         user_data = request.data
         print(user_data)
-        new_user = IdioUser.objects.create(cookie_value=str(user_data["user_cookie_value"]))
+        new_user = IdioUser.objects.create(
+            cookie_value=str(user_data["user_cookie_value"]))
         print(new_user)
         new_user.save()
 
         serializer = IdioUserSerializer(new_user)
+
+        return Response(serializer.data)
+
+
+class EduVideoLearnViewSet(APIView):
+    serializer_class = EduVideoLearnSerializer
+
+    def get_queryset(self):
+        queryset = EduVideosLearn.objects.all()
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        serializer = EduVideoLearnSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        new_edu_video_learn = EduVideosLearn.objects.create(
+            edu_video=EduVideo.objects.get(id=request.data["edu_video_id"]),
+            idio_user=IdioUser.objects.get(cookie_value=request.data["cookie_value"]))
+        print(new_edu_video_learn)
+        new_edu_video_learn.save()
+
+        serializer = EduVideoLearnSerializer(new_edu_video_learn)
+
+        return Response(serializer.data)
+
+class EduVideoSkipViewSet(APIView):
+    serializer_class = EduVideoSkipSerializer
+
+    def get_queryset(self):
+        queryset = EduVideosLearn.objects.all()
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        serializer = EduVideoLearnSerializer(self.get_queryset(), many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        new_edu_video_skip = EduVideosSkip.objects.create(
+            edu_video=EduVideo.objects.get(id=request.data["edu_video_id"]),
+            idio_user=IdioUser.objects.get(cookie_value=request.data["cookie_value"]))
+        new_edu_video_skip.save()
+
+        serializer = EduVideoSkipSerializer(new_edu_video_skip)
 
         return Response(serializer.data)

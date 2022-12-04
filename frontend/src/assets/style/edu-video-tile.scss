@@ -1,6 +1,7 @@
 @import "base.scss";
 
 .video__container {
+  z-index: 10;
   background-color: $mapulary-orange;
   //padding-top: -30px;
   border-radius: 11px;
@@ -37,6 +38,20 @@
   -webkit-filter: opacity(30%);
 }
 
+/*.image_play_button {
+  z-index: 1000;
+  position: absolute;
+  top: calc(50% - 3rem);
+  left: calc(50% - 3rem);
+  box-shadow: inset 2px 0px 0px 10px red;
+  border-radius: 50%;
+}
+
+.play_image_from_logo {
+  width: 7rem;
+  height: auto;
+}*/
+
 .play_again_icon {
   width: 45%;
   height: 45%;
@@ -54,45 +69,6 @@
   left: 38%;
 }
 
-/*
-.titles_container {
-  z-index: 1000;
-  display: flex;
-  position: absolute;
-  justify-content: center;
-  height: 2.5rem;
-  top:0;
-  text-align: center;
-}
-.video_name {
-  position: absolute;
-  border: solid $mapulary-orange 6px;
-  box-shadow: 0 2px 0 4px $color-yellowish;
-  left: 10rem;
-  background-color: $mapulary-orange;
-  color: $mapulary-text-gray;
-  font-size: 30px;
-  font-family: Comfortaa, serif;
-  font-weight: bold;
-  width: 30rem;
-  border-radius: 11px;
-
-}
-
-.video_source_info {
-  position: absolute;
-  //display: flex;
-  z-index: 2;
-  color: $mapulary-text-gray;
-  font-size: 20px;
-  font-family: Comfortaa, serif;
-  //right: 0;
-  width: 50%;
-  text-align: right;
-  top: 25%;
-  text-shadow: 2px 2px $color-yellowish;
-}*/
-
 .play_button {
   cursor: pointer;
   z-index: 1000;
@@ -105,25 +81,6 @@
   position: absolute;
   display: flex;
   box-shadow: 0px 0px 25px 3px $color-yellowish 80%;
-}
-
-/* triangle */
-.play_button::after {
-  //content: "";
-  //position: absolute;
-  //left: 50%;
-  //top: 50%;
-  //-webkit-transform: translateX(-40%) translateY(-50%);
-  //transform: translateX(-40%) translateY(-50%);
-  //transform-origin: center center;
-  //width: 0;
-  //height: 0;
-  //border-top: 1.9vh solid transparent;
-  //border-bottom: 1.9vh solid transparent;
-  //border-left: 3.2vh solid #fff;
-  //z-index: 100;
-  //-webkit-transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
-  //transition: all 400ms cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 
 /* pulse wave */
@@ -218,6 +175,16 @@
   position: relative;
   display: flex;
   justify-content: center;
+}
+
+.error_messsage_text {
+  color: $mapulary-text-gray;
+  font-size: 2rem;
+  font-family: Comfortaa, serif;
+  width: 30rem;
+  left: calc(50% - 15rem);
+  top: 25rem;
+  position: absolute;
 }
 
 .switch_container {
