@@ -10,8 +10,10 @@ __pycache__/
 # videos
 videos/
 
-#vuejs 
+# videos source
+videos_source/
 
+#vuejs 
 # Logs
 logs
 *.log
