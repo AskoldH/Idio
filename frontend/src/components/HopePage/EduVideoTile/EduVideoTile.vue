@@ -29,10 +29,10 @@
           </label>
         </div>
         <div>
-          <div v-if="!languageToggle" class="subtitles_text">
+          <div v-if="!languageToggle" class="subtitles_text" @click="toggleLanguage">
             <TextContainer v-bind:text=subtitles.cs />
           </div>
-          <div v-else class="subtitles_text">
+          <div v-else class="subtitles_text" @click="toggleLanguage">
             <TextContainer v-bind:text=subtitles.en />
           </div>
         </div>
