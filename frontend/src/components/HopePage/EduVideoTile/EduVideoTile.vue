@@ -16,7 +16,7 @@
       </div>
       <div v-if="!playing && eduVideo.name" class="edu_video_info_container">
         <TextContainer class="title_text" v-bind:text=eduVideo.name />
-        <TextContainer class="source_info_text" v-bind:text="eduVideo.source_name + divider + eduVideo.source_season_episode" />
+        <TextContainer class="source_info_text" v-bind:text="eduVideo.source_name_cs + divider + eduVideo.source_season_episode" />
       </div>
       <div v-if="subtitles.cs && subtitles.en">
         <div class="switch_container">
@@ -107,6 +107,7 @@ export default {
     fetchSubtitles() {
       this.$axios.get("http://localhost:8000/api/subtitles-info?edu-video-id=" + this.eduVideo.id).then((response) => {
         this.setSubtitlesTimes(response.data)
+        console.log(response.data)
         this.setVideoListener()
       }, (error) => {
         console.log(error);

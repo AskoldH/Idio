@@ -27,11 +27,14 @@ export default {
         },
         setUserIDCookie(userCookieValue) {
             // sets cookie value for name id = given argument
-            document.cookie = "id=" + userCookieValue + "; expires=Thu, 18 Dec 2022 12:00:00 UTC";
+            let date = new Date();
+            date.setTime(date.getTime() + (30 * 24 * 60 * 60 * 1000)); // 30 days in milliseconds
+            let expires = "expires=" + date.toUTCString();
+            document.cookie = "id=" + userCookieValue + ";" + expires + ";";
         },
         createIdioUser(userCookieValue) {
             // requests creating user with given userCookieValue (user id)
-            this.$axios.post("http://localhost:8000/api/idio-user", { "user_cookie_value": userCookieValue}).then((response) => console.log(response))
+            this.$axios.post("http://localhost:8000/api/idio-user", { "user_cookie_value": userCookieValue }).then((response) => console.log(response))
                 .catch(error => console.log(error))
         },
     }

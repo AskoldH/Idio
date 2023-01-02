@@ -29,9 +29,9 @@ class EduVideoSkipSerializer(ModelSerializer):
 class VideoSourceTypeSerializer(ModelSerializer):
     class Meta:
         model = VideoSourcesType
-        fields = ["video_source_type"]
+        fields = ["video_source_type", "label"]
 
 class VideoSourceNameSerializer(ModelSerializer):
     class Meta:
         model = VideoSourceName
-        fields = ["source_name", "source_season_episode"]
+        fields = ["source_name_en", "source_name_cs", "source_season_episode"]

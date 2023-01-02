@@ -14,7 +14,7 @@ class EduVideosViewSet(APIView):
     def get(self, request, *args, **kwargs):
         user_cookie_value = request.query_params.get("user-cookie-value")
 
-        idio_user = IdioUser.objects.get(cookie_value=user_cookie_value)
+        idio_user = IdioUser.objects.get(cookie_value=str(user_cookie_value))
 
         to_exclude_learned = EduVideosLearn.objects.filter(
             idio_user=idio_user).values('edu_video')
