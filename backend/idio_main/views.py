@@ -4,7 +4,7 @@ from .serializer import EduVideoSerializer, SubtitlesInfoSerializer, IdioUserSer
 from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+import random
 
 class EduVideosViewSet(APIView):
     serializer_class = EduVideoSerializer
@@ -28,9 +28,13 @@ class EduVideosViewSet(APIView):
         for pair in list(to_exclude_skipped):
             all_ids.append(pair.get('edu_video'))
 
-        edu_video = self.queryset.exclude(id__in=all_ids)
+        edu_videos = self.queryset.exclude(id__in=all_ids)
+        random_index = random.randint(0, edu_videos.count() - 1)
+        edu_video = edu_videos[random_index]
         
-        serializer = EduVideoSerializer(edu_video.first())
+
+        print(edu_video)
+        serializer = EduVideoSerializer(edu_video)
         video_source_name_serializer = VideoSourceNameSerializer(VideoSourceName.objects.get(id=serializer.data.get("source_info")))
         source_data = video_source_name_serializer.data
         data = serializer.data
