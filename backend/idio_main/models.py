@@ -61,9 +61,9 @@ class IdioUser(models.Model):
     edu_videos_skipped = models.ManyToManyField(
         EduVideo, through='EduVideosSkip', related_name="edu_videos_skipped")
     last_edu_video = models.ForeignKey(
-        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True)
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="last_edu_video")
     next_edu_video = models.ForeignKey(
-        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True)
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="next_edu_video")
 
     def __str__(self):
         return (self.cookie_value)
