@@ -1,7 +1,7 @@
 <template>
     <BaseButton v-if="propsData.eduVideo.id" v-bind:buttonLabel="buttonBackLabel" class="back_button" />
-    <BaseButton v-if="propsData.eduVideo.id" @click="postLearned(); reloadPage()" v-bind:buttonLabel="buttonNextLabel" class="skip_button" />
-    <BaseButton v-if="propsData.eduVideo.id" @click="postSkipped(); reloadPage()" v-bind:buttonLabel="buttonSpipLabel" class="next_button" />
+    <BaseButton v-if="propsData.eduVideo.id" @click="postLearned(); reloadPage(); patchLastEduVideo();" v-bind:buttonLabel="buttonNextLabel" class="skip_button" />
+    <BaseButton v-if="propsData.eduVideo.id" @click="postSkipped(); reloadPage(); patchLastEduVideo();" v-bind:buttonLabel="buttonSpipLabel" class="next_button" />
 </template>
 
 <script>
@@ -37,6 +37,13 @@ export default {
     postLearned() {
       this.$axios.post("http://localhost:8000/api/edu-video-learn", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
         .catch(error => console.log(error))
+    },
+    patchLastEduVideo() {
+      this.$axios.patch("http://localhost:8000/api/idio-user", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
+        .catch(error => console.log(error))
+    },
+    goToLastVideo() {
+      
     },
     reloadPage() {
       window.location.reload();

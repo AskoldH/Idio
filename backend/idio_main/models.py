@@ -34,7 +34,7 @@ class EduVideo(models.Model):
         VideoSourcesType, on_delete=models.CASCADE, blank=False, null=False)
     source_info = models.ForeignKey(
         VideoSourceName, on_delete=models.CASCADE, blank=False, null=False)
-
+    
     def edu_video_save(self, *args, **kwargs):
         self.file.name = self.video_file
         super(EduVideoModel, self).save(*args, **kwargs)
@@ -60,6 +60,10 @@ class IdioUser(models.Model):
         EduVideo, through='EduVideosLearn', related_name="edu_videos_learned")
     edu_videos_skipped = models.ManyToManyField(
         EduVideo, through='EduVideosSkip', related_name="edu_videos_skipped")
+    last_edu_video = models.ForeignKey(
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True)
+    next_edu_video = models.ForeignKey(
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
         return (self.cookie_value)

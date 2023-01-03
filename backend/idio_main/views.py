@@ -12,9 +12,7 @@ class EduVideosViewSet(APIView):
     queryset = EduVideo.objects.all()
 
     def get(self, request, *args, **kwargs):
-        user_cookie_value = request.query_params.get("user-cookie-value")
-
-        idio_user = IdioUser.objects.get(cookie_value=str(user_cookie_value))
+        idio_user = IdioUser.objects.get(cookie_value=str(request.query_params.get('cookie_value')))
 
         to_exclude_learned = EduVideosLearn.objects.filter(
             idio_user=idio_user).values('edu_video')
@@ -79,6 +77,14 @@ class IdioUserViewSet(APIView):
         serializer = IdioUserSerializer(new_user)
 
         return Response(serializer.data)
+
+    def patch(self, request, *args, **kwargs):
+        idio_user = IdioUser.objects.get(cookie_value=request.data["cookie_value"])
+        edu_video = EduVideo.objects.get(id=request.data["edu_video_id"])
+
+        idio_user.last_edu_video = edu_video
+        idio_user.save()
+        return Response(status=200)
 
 
 class EduVideoLearnViewSet(APIView):
