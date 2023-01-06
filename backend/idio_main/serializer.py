@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import EduVideo, SubtitlesInfo, IdioUser, EduVideosLearn, EduVideosSkip, VideoSourcesType, VideoSourceName
+from rest_framework import serializers
 
 class EduVideoSerializer(ModelSerializer):
     class Meta: 
@@ -14,7 +15,7 @@ class SubtitlesInfoSerializer(ModelSerializer):
 class IdioUserSerializer(ModelSerializer):
     class Meta:
         model = IdioUser
-        fields = ["cookie_value"]
+        fields = ["cookie_value", "last_edu_video"]
 
 class EduVideoLearnSerializer(ModelSerializer):
     class Meta:

@@ -1,7 +1,10 @@
 <template>
-    <BaseButton v-if="propsData.eduVideo.id" v-bind:buttonLabel="buttonBackLabel" class="back_button" />
-    <BaseButton v-if="propsData.eduVideo.id" @click="postLearned(); reloadPage(); patchLastEduVideo();" v-bind:buttonLabel="buttonNextLabel" class="skip_button" />
-    <BaseButton v-if="propsData.eduVideo.id" @click="postSkipped(); reloadPage(); patchLastEduVideo();" v-bind:buttonLabel="buttonSpipLabel" class="next_button" />
+  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('back'); backButtonDisableEnable(true);"
+    v-bind:buttonInfo="buttonBackInfo" class="back_button" />
+  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('learned'); patchLastEduVideo();"
+    v-bind:buttonInfo="buttonSkipInfo" class="learned_button" />
+  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('skip'); patchLastEduVideo();"
+    v-bind:buttonInfo="buttonLearnedInfo" class="skip_button" />
 </template>
 
 <script>
@@ -19,34 +22,67 @@ export default {
       default: () => ({}),
     }
   },
+  emits: ['send-message-to-parent'],
   data() {
     return {
-      buttonNextLabel: "Umím",
-      buttonSpipLabel: "Přeskočit",
-      buttonBackLabel: "Zpět",
+      backButtonDisabled: false,
+
+      buttonLearnedInfo: {
+        label: "Umím",
+        isDisabled: false,
+      },
+
+      buttonSkipInfo: {
+        label: "Přeskočit",
+        isDisabled: false,
+      },
+
+      buttonBackInfo: {
+        label: "Zpět",
+        isDisabled: false,
+      },
     }
   },
   created() {
-
+    if (this.propsData.lastEduVideo) {
+      this.backButtonDisableEnable()
+    }
+    else {
+      const unwatch = this.$watch('propsData.eduVideo.id', () => {
+        this.backButtonDisableEnable()
+        unwatch()
+      })
+    }
   },
   methods: {
-    postSkipped() {
+    backButtonDisableEnable(clicked) {
+      console.log('edudfsdf', this.propsData.lastEduVideo)
+      console.log(this.propsData.eduVideo.id, "vs", this.propsData.lastEduVideo)
+      if (this.propsData.lastEduVideo == null || clicked ) { 
+        this.buttonBackInfo.isDisabled = true 
+        console.log("1")
+      }
+      else { 
+        this.buttonBackInfo.isDisabled = false 
+        console.log("3")
+      }
+    },
+    /*postSkipped() {
       this.$axios.post("http://localhost:8000/api/edu-video-skip", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
         .catch(error => console.log(error))
     },
     postLearned() {
       this.$axios.post("http://localhost:8000/api/edu-video-learn", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
         .catch(error => console.log(error))
-    },
+    },*/
     patchLastEduVideo() {
       this.$axios.patch("http://localhost:8000/api/idio-user", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
         .catch(error => console.log(error))
     },
-    goToLastVideo() {
-      
-    },
-    reloadPage() {
-      window.location.reload();
+    sendLoadDataToParent(buttonType) {
+      this.propsData.buttonType = buttonType
+      if (this.buttonBackInfo.isDisabled) { return }
+      this.$emit('send-message-to-parent', this.propsData)
     },
   }
 }

@@ -1,6 +1,6 @@
 <template>
-  <Buttons v-bind:propsData="propsData" />
-  <EduVideoTile v-bind:propsData="propsData" />
+  <Buttons v-bind:propsData="propsData" @send-message-to-parent="refreshVideo" />
+  <EduVideoTile v-bind:propsData="propsData" v-bind:key="uniqueKey" />
 </template>
 
 <script>
@@ -9,14 +9,19 @@ import "./../../../src/assets/style/buttons.scss";
 import "./../../../src/assets/style/text-containers.scss";
 import EduVideoTile from "./EduVideoTile/EduVideoTile.vue";
 import Buttons from "./Buttons/Buttons.vue";
+
 export default {
   name: "Homepage",
   components: { EduVideoTile, Buttons },
   data() {
     return {
+      uniqueKey: 1,
+
       propsData:
       {
         cookieValue: '',
+        buttonType: false,
+        lastEduVideo: '',
         eduVideo: {
           video_file: null,
           name: null,
@@ -26,7 +31,8 @@ export default {
     }
   },
   created() {
-    this.propsData.cookieValue = this.getCookie("id");
+    this.propsData.cookieValue = this.getCookie("id")
+    this.fetchLastVideo()
     this.fetchVideo()
   },
   methods: {
@@ -39,7 +45,9 @@ export default {
     fetchVideo() {
       this.$axios.get("http://localhost:8000/api/edu-video", {
         params: {
-          cookie_value: this.propsData.cookieValue
+          cookie_value: this.propsData.cookieValue,
+          button_type: 'false',
+          edu_video_id: 'false',
         }
       }).then((response) => {
         this.propsData.eduVideo = response.data
@@ -48,6 +56,37 @@ export default {
         console.log(error);
       })
     },
+    addOneToUniqueKey() {
+      this.uniqueKey +=1;
+    },
+    refreshVideo() {
+      this.$axios.get("http://localhost:8000/api/edu-video", {
+        params: {
+          cookie_value: this.propsData.cookieValue,
+          button_type: this.propsData.buttonType,
+          edu_video_id: this.propsData.eduVideo.id,
+        }
+      }).then((response) => {
+        this.propsData.eduVideo = response.data
+        this.propsData.eduVideo.video_file = "http://localhost:8000" + this.propsData.eduVideo.video_file
+      }, (error) => {
+        console.log(error);
+      })
+      setTimeout(this.addOneToUniqueKey, 200)
+      console.log(this.propsData)
+    },
+    fetchLastVideo(){
+      this.$axios.get("http://localhost:8000/api/idio-user", {
+        params: {
+          cookie_value: this.propsData.cookieValue,
+        }
+      }).then((response) => {
+        this.propsData.lastEduVideo = response.data.last_edu_video
+        console.log(this.propsData.lastEduVideo)
+      }, (error) => {
+        console.log(error);
+      })
+    }
   }
 }
 </script>

@@ -6,37 +6,71 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import random
 
+
 class EduVideosViewSet(APIView):
     serializer_class = EduVideoSerializer
 
     queryset = EduVideo.objects.all()
 
     def get(self, request, *args, **kwargs):
-        idio_user = IdioUser.objects.get(cookie_value=str(request.query_params.get('cookie_value')))
+        idio_user = IdioUser.objects.get(cookie_value=str(
+            request.query_params.get('cookie_value')))
+        button_type = str(request.query_params.get('button_type'))
+        edu_video_id_param = str(request.query_params.get('edu_video_id'))
 
-        to_exclude_learned = EduVideosLearn.objects.filter(
-            idio_user=idio_user).values('edu_video')
-        to_exclude_skipped = EduVideosSkip.objects.filter(
-            idio_user=idio_user).values('edu_video')
+        if button_type == "back":
+            edu_video_id = idio_user.last_edu_video.id
+            edu_video = EduVideo.objects.get(id=edu_video_id)
 
-        all_ids = []
-        for pair in list(to_exclude_learned):
-            all_ids.append(pair.get('edu_video'))
+            learn_video_object = EduVideosLearn.objects.filter(
+                edu_video=edu_video_id)
+            if learn_video_object.exists():
+                learn_video_object.delete()
 
-        for pair in list(to_exclude_skipped):
-            all_ids.append(pair.get('edu_video'))
+            skip_video_object = EduVideosSkip.objects.filter(
+                edu_video=edu_video_id)
+            if skip_video_object.exists():
+                skip_video_object.delete()
+        else:
+            if edu_video_id_param != "false":
+                if button_type == "skip":
+                    new_edu_video_skip = EduVideosSkip.objects.create(
+                        edu_video=EduVideo.objects.get(
+                        id=edu_video_id_param),
+                        idio_user=idio_user)
+                    new_edu_video_skip.save()
 
-        edu_videos = self.queryset.exclude(id__in=all_ids)
-        random_index = random.randint(0, edu_videos.count() - 1)
-        edu_video = edu_videos[random_index]
-        
+                elif button_type == "learned":
+                    new_edu_video_learn = EduVideosLearn.objects.create(
+                        edu_video=EduVideo.objects.get(id=edu_video_id_param),
+                        idio_user=idio_user)
+                    new_edu_video_learn.save()
 
-        print(edu_video)
+            to_exclude_learned = EduVideosLearn.objects.filter(
+             idio_user=idio_user).values('edu_video')
+            to_exclude_skipped = EduVideosSkip.objects.filter(
+              idio_user=idio_user).values('edu_video')
+
+            all_ids = []
+            for pair in list(to_exclude_learned):
+                all_ids.append(pair.get('edu_video'))
+
+            for pair in list(to_exclude_skipped):
+                all_ids.append(pair.get('edu_video'))
+
+            if idio_user.last_edu_video != None:
+                all_ids.append(idio_user.last_edu_video.id)
+
+            edu_videos = self.queryset.exclude(id__in=all_ids)
+            random_index = random.randint(0, edu_videos.count() - 1)
+            edu_video = edu_videos[random_index]
+
         serializer = EduVideoSerializer(edu_video)
-        video_source_name_serializer = VideoSourceNameSerializer(VideoSourceName.objects.get(id=serializer.data.get("source_info")))
+        video_source_name_serializer = VideoSourceNameSerializer(
+            VideoSourceName.objects.get(id=serializer.data.get("source_info")))
         source_data = video_source_name_serializer.data
         data = serializer.data
-        
+
         data.update(source_data)
         return Response(data)
 
@@ -58,12 +92,12 @@ class SubtitlesInfoViewSet(APIView):
 class IdioUserViewSet(APIView):
     serializer_class = IdioUserSerializer
 
-    def get_queryset(self):
-        queryset = IdioUser.objects.all()
-        return queryset
+    queryset = IdioUser.objects.all()
+
 
     def get(self, request, *args, **kwargs):
-        serializer = IdioUserSerializer(self.get_queryset(), many=True)
+        cookie_value = request.query_params.get("cookie_value")
+        serializer = IdioUserSerializer(IdioUser.objects.get(cookie_value=cookie_value))
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -79,7 +113,8 @@ class IdioUserViewSet(APIView):
         return Response(serializer.data)
 
     def patch(self, request, *args, **kwargs):
-        idio_user = IdioUser.objects.get(cookie_value=request.data["cookie_value"])
+        idio_user = IdioUser.objects.get(
+            cookie_value=request.data["cookie_value"])
         edu_video = EduVideo.objects.get(id=request.data["edu_video_id"])
 
         idio_user.last_edu_video = edu_video
@@ -108,6 +143,7 @@ class EduVideoLearnViewSet(APIView):
         serializer = EduVideoLearnSerializer(new_edu_video_learn)
 
         return Response(serializer.data)
+
 
 class EduVideoSkipViewSet(APIView):
     serializer_class = EduVideoSkipSerializer

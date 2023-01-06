@@ -1,7 +1,8 @@
 <template>
-  <div class="duolingo_button_container">
-    <div class="duolingo_button">
-      {{ buttonLabel }}
+  <div v-bind:class="{ duolingo_button_container: !buttonInfo.isDisabled, duolingo_button_container_disabled: buttonInfo.isDisabled }">
+    <div
+      v-bind:class="{ duolingo_button: !buttonInfo.isDisabled, duolingo_button_disabled: buttonInfo.isDisabled }">
+      {{ buttonInfo.label }}
     </div>
   </div>
 </template>
@@ -10,9 +11,12 @@
 export default {
   name: "BaseButton",
   props: {
-    buttonLabel: {
-      type: String
+    buttonInfo: {
+      type: Object
     }
+  },
+  created () {
+    console.log(this.buttonInfo)
   }
 }
 </script>
