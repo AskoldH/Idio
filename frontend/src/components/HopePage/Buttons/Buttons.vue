@@ -1,10 +1,15 @@
 <template>
-  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('back'); backButtonDisableEnable(true);"
-    v-bind:buttonInfo="buttonBackInfo" class="back_button" />
-  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('learned'); patchLastEduVideo();"
-    v-bind:buttonInfo="buttonSkipInfo" class="learned_button" />
-  <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParent('skip'); patchLastEduVideo();"
-    v-bind:buttonInfo="buttonLearnedInfo" class="skip_button" />
+  <div class="back_button_container">
+    <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParentBack('back'); backButtonDisableEnable(true);"
+      v-bind:buttonInfo="buttonBackInfo" class="back_button" />
+  </div>
+  <div class="learned_skip_buttons_container">
+    <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParentLearned('learned'); backButtonDisableEnable('skipLearned');"
+      v-bind:buttonInfo="buttonLearnedInfo" class="learned_button" />
+
+    <BaseButton v-if="propsData.eduVideo.id" @click="sendLoadDataToParentSkip('skip'); backButtonDisableEnable('skipLearned');"
+      v-bind:buttonInfo="buttonSkipInfo" class="skip_button" />
+  </div>
 </template>
 
 <script>
@@ -25,8 +30,6 @@ export default {
   emits: ['send-message-to-parent'],
   data() {
     return {
-      backButtonDisabled: false,
-
       buttonLearnedInfo: {
         label: "Umím",
         isDisabled: false,
@@ -44,6 +47,7 @@ export default {
     }
   },
   created() {
+    this.backButtonDisableEnable()
     if (this.propsData.lastEduVideo) {
       this.backButtonDisableEnable()
     }
@@ -56,9 +60,13 @@ export default {
   },
   methods: {
     backButtonDisableEnable(clicked) {
-      console.log('edudfsdf', this.propsData.lastEduVideo)
+      console.log('edudfsdf', this.propsData)
       console.log(this.propsData.eduVideo.id, "vs", this.propsData.lastEduVideo)
-      if (this.propsData.lastEduVideo == null || clicked ) { 
+      if (clicked === 'skipLearned'){
+        this.buttonBackInfo.isDisabled = false 
+        return
+      }
+      if (this.propsData.lastEduVideo === null || clicked || this.propsData.eduVideo.id === this.propsData.lastEduVideo ) { 
         this.buttonBackInfo.isDisabled = true 
         console.log("1")
       }
@@ -79,9 +87,28 @@ export default {
       this.$axios.patch("http://localhost:8000/api/idio-user", { "edu_video_id": this.propsData.eduVideo.id, "cookie_value": this.propsData.cookieValue }).then((response) => console.log(response))
         .catch(error => console.log(error))
     },
-    sendLoadDataToParent(buttonType) {
+    sendLoadDataToParentBack(buttonType) {
+      console.log("posláno snad")
       this.propsData.buttonType = buttonType
       if (this.buttonBackInfo.isDisabled) { return }
+      this.$emit('send-message-to-parent', this.propsData)
+    },
+    sendLoadDataToParentLearned(buttonType) {
+      console.log("posláno snad: ", this.propsData)
+      this.propsData.buttonType = buttonType
+      this.$emit('send-message-to-parent', this.propsData)
+      if (this.propsData.checkTest == '3'){
+        this.propsData.performTest = 1
+        this.propsData.buttonType = false
+        this.$emit('send-message-to-parent', this.propsData)
+      }
+      if (this.buttonLearnedInfo.isDisabled) { return }
+      
+    },
+    sendLoadDataToParentSkip(buttonType) {
+      console.log("posláno snad")
+      this.propsData.buttonType = buttonType
+      if (this.buttonSkipInfo.isDisabled) { return }
       this.$emit('send-message-to-parent', this.propsData)
     },
   }

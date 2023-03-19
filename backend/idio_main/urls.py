@@ -9,3 +9,6 @@ urlpatterns = [
     url('api/subtitles-info', SubtitlesInfoViewSet.as_view()),
     url('api/idio-user', IdioUserViewSet.as_view()),
     ]
+
+
+

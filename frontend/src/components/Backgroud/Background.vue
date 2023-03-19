@@ -10,6 +10,26 @@
     <li></li>
     <li></li>
     <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
   </ul>
 </template>
 
@@ -35,13 +55,13 @@ export default {
 
 .background {
     position: fixed;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     margin: 0;
     padding: 0;
-    background: #e8ceb0;
+    background: #e8ceb0;/*#e8ceb0;*/
     overflow: hidden;
 }
 .background li {
@@ -50,7 +70,7 @@ export default {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(205, 126, 29, 0.4);
     animation: animate 31s linear infinite;
 }
 

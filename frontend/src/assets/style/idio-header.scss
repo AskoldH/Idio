@@ -3,6 +3,10 @@
 .header_container {
     position: relative;
     height: 6rem;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    z-index: 1001;
 }
 
 .header_logo {
@@ -14,4 +18,128 @@
 
 .hearder_logo_link:hover {  
     background-color: transparent;
+}
+
+.header_burger_container {
+    display: block;
+    top: 2rem;
+    right: 10px; 
+    height: 18rem;
+    width: 13rem;
+}
+
+.header_links_container {
+    margin-top: 15px;
+    border: solid #eeeacd 6px;
+    box-shadow: 0 2px 0 4px #b9a565;
+    background-color: #F0EDD7;
+    border-radius: 11px;
+}
+
+.header_home_button {
+    //color:#1b2442;
+    font-size: 1.4rem;
+    font-family: Comfortaa, serif;
+    color: white;
+    display: flex;
+    height: fit-content;
+    position: relative;
+    margin: 1rem 0.5rem;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.header_home_button:hover{
+    color: #f49a28;
+    background-color: #F0EDD7; 
+    border: solid #F0EDD7 6px;
+    box-shadow: 0 2px 0 4px #f49a28;
+}
+
+.header_about_button {
+    color: $mapulary-text-gray;
+    font-size: 1.4rem;
+    font-family: Comfortaa, serif;
+    color: white;
+    display: flex;
+    position: relative;
+    height: fit-content;
+    margin: 1rem 0.5rem;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.header_about_button:hover{
+    color: #f49a28;
+    background-color: #F0EDD7; 
+    border: solid #F0EDD7 6px;
+    box-shadow: 0 2px 0 4px #f49a28;
+  }
+
+.header_get_code_button {
+    color: $mapulary-text-gray;
+    font-size: 1.4rem;
+    font-family: Comfortaa, serif;
+    color: white;
+    display: flex;
+    position: relative;
+    margin: 1rem 0.5rem;
+    height: fit-content;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.header_get_code_button:hover{
+    color: #f49a28;
+    background-color: #F0EDD7; 
+    border: solid #F0EDD7 6px;
+    box-shadow: 0 2px 0 4px #f49a28;
+  }
+  
+ /* CSS code for burger menu icon */
+.burger-menu {
+    display: block;
+    cursor: pointer;
+    width: 30px;
+    height: 24px;
+    position: relative;
+    transform: rotate(-0deg);
+    transition: .5s ease-in-out;
+    left: calc(100% - 3rem);
+  }
+  
+  .burger-menu .bar {
+    width: 100%;
+    height: 4px;
+    background-color: #f49a28;
+    margin: 0 auto 5px;
+    transition: .2s ease-in-out;
+  }
+  
+  .burger-menu.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .burger-menu.active .bar:nth-child(1) {
+    transform: rotate(-45deg);
+    top: 8px;
+  }
+  
+  .burger-menu.active .bar:nth-child(3) {
+    transform: rotate(45deg);
+    top: -9px;
+  }
+
+.footer_container {
+    width: 100%;
+    height: 30px;
+    top: 9px;
+    position: relative;
+    bottom: 0;
+}
+.footer_text {
+    //top: 4px;
+    width: fit-content;
+    //margin-left: 20px;
+    margin: 0 auto;
 }

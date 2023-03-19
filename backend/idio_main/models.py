@@ -20,10 +20,10 @@ class VideoSourceName(models.Model):
 
     def __str__(self):
         return (self.source_name_en + " | " + self.source_season_episode)
-
+        
 
 class EduVideo(models.Model):
-    name = models.CharField(max_length=32, blank=False, null=False)
+    name = models.CharField(max_length=64, blank=False, null=False)
     video_file = models.FileField(upload_to='videos/', null=True)
     main_thought = models.CharField(max_length=64, null=True, blank=True)
     main_thought_false_1 = models.CharField(
@@ -34,7 +34,7 @@ class EduVideo(models.Model):
         VideoSourcesType, on_delete=models.CASCADE, blank=False, null=False)
     source_info = models.ForeignKey(
         VideoSourceName, on_delete=models.CASCADE, blank=False, null=False)
-    
+
     def edu_video_save(self, *args, **kwargs):
         self.file.name = self.video_file
         super(EduVideoModel, self).save(*args, **kwargs)
@@ -60,8 +60,17 @@ class IdioUser(models.Model):
         EduVideo, through='EduVideosLearn', related_name="edu_videos_learned")
     edu_videos_skipped = models.ManyToManyField(
         EduVideo, through='EduVideosSkip', related_name="edu_videos_skipped")
+
     last_edu_video = models.ForeignKey(
         EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="last_edu_video")
+    learned_edu_video_1 = models.ForeignKey(
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="learned_edu_video_1")
+    learned_edu_video_2 = models.ForeignKey(
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="learned_edu_video_2")
+    learned_edu_video_3 = models.ForeignKey(
+        EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="learned_edu_video_3")
+    check_test = models.CharField(max_length=8, blank=False, null=False, default='1')
+
     next_edu_video = models.ForeignKey(
         EduVideo, on_delete=models.DO_NOTHING, blank=True, null=True, related_name="next_edu_video")
 

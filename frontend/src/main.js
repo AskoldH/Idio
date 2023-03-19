@@ -5,14 +5,14 @@ import axios from 'axios'
 import {createRouter, createWebHashHistory} from 'vue-router'
 
 import Homepage from "./components/HopePage/Homepage.vue";
-import EduVideoTile from "./components/HopePage/EduVideoTile/EduVideoTile.vue";
-
+import About from "./components/About/About.vue";
 import './assets/main.css'
 
 
 const routes = [
-    {path: '/', component: Homepage},
-    {path: '/about', component: EduVideoTile}
+    {path: '/home', component: Homepage},
+    {path: '/get_use_code', component: Homepage},
+    {path: '/about', component: About},
 ];
 
 const router = createRouter(

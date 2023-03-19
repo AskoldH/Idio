@@ -3,7 +3,7 @@
 @import "style/edu-video-tile.scss";
 @import "style/base.scss";
 @import "style/idio-header.scss";
-
+@import "style/about.scss";
 #app {
     height: 100vh;
     min-width: 100%;

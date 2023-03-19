@@ -1,0 +1,66 @@
+@import "base.scss";
+
+.info_about_container {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height: calc(100% - 12rem);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+
+}
+
+@media (max-width: 767px) {
+  .info_about_text {
+  font-size: 1.2rem;
+  }
+  .info_about_title {
+    font-size: 1.6rem;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  .info_about_text {
+    font-size: 1.5rem;
+    }
+  .info_about_title {
+    font-size: 1.8rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .info_about_text {
+    font-size: 1.7rem;
+    }
+  .info_about_title {
+    font-size: 2.4rem;
+  }
+}
+
+.info_about_text {
+    max-width: 70%;
+    color: $mapulary-text-gray;
+    display: block;
+    font-family: Comfortaa, serif;
+    width: fit-content;
+    position: relative;
+    margin-top: 1rem;
+
+    text-align: center;
+
+  }
+
+.info_about_title {
+    max-width: 70%;
+    display: block;
+    color: $mapulary-text-gray;
+    font-family: Comfortaa, serif;
+    width: fit-content;
+    position: relative;
+
+    @media (max-width: 767px) {
+      color: red;
+    }
+  }
